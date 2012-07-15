@@ -411,15 +411,4 @@ public class MusicSearcher extends JFrame {
 			}
 		}
 	}
-
-	public class SearchAction extends AbstractAction {
-		public SearchAction(String name, ImageIcon icon) {
-			super(name, icon);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			WebClient client = new WebClient();
-
-		}
-	}
 }
