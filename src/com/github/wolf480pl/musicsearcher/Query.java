@@ -3,6 +3,7 @@ package com.github.wolf480pl.musicsearcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -86,6 +87,15 @@ public class Query {
 
 	public Result[] getResults() {
 		return this.results.toArray(new Result[0]);
+	}
+	
+	public List<Object[]> getResultsAsRows() {
+		Iterator<Result> I = results.iterator();
+		List<Object[]> ret = new ArrayList<Object[]>();
+		while (I.hasNext()) {
+			ret.add(I.next().toRow());
+		}
+		return ret;
 	}
 
 	public void removeResult(int index) {
