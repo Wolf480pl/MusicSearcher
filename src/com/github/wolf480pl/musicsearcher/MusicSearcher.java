@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -27,30 +29,22 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-
 public class MusicSearcher extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private CheckboxTree tree;
+	CheckboxTree tree;
 	private JTextField editField;
 	private JCheckBox zippyChk, ulubChk;
 	private JButton applyBut;
 	private JRadioButton radioS, radioE;
-	private MyTableModel resultModel;
+	MyTableModel resultModel;
 
 	public MusicSearcher() {
 		this.initComponents();
 	}
 
 	private void initComponents() {
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Korzen");
-		DefaultMutableTreeNode nod1 = new DefaultMutableTreeNode("Galaz");
-		DefaultMutableTreeNode nod2 = new DefaultMutableTreeNode("Lisc1", false);
-		nod1.add(nod2);
-		top.add(nod1);
-		nod1 = new DefaultMutableTreeNode("Lisc2", true);
-		top.add(nod1);
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Songs");
 		this.tree = new CheckboxTree(top);
 		this.tree.addTreeSelectionListener(new EditTSListener(this));
 		// tree.setRootVisible(false);
@@ -83,12 +77,12 @@ public class MusicSearcher extends JFrame {
 		this.zippyChk = new JCheckBox("zippyshare");
 		this.ulubChk = new JCheckBox("ulub");
 		this.applyBut = new JButton(new NodeUpdateAction("Apply", null, this));
-		JButton searchBut = new JButton("Search");
+		JButton searchBut = new JButton(new SearchAction("Search", null, this));
 		dim = searchBut.getMaximumSize();
 		dim.width = 700;
 		searchBut.setMaximumSize(dim);
 		this.resultModel = new MyTableModel(
-				new String[] { "", "Title", "Site", "Size", "Time", "kbps",
+				new String[] { "", "Song", "Query", "Title", "Site", "Size",
 						"link", "directlink" },
 				new Class[] { Boolean.class, String.class, String.class,
 						String.class, String.class, String.class, String.class,
@@ -396,6 +390,13 @@ public class MusicSearcher extends JFrame {
 		public void addRow(Object[] data) {
 			if (data.length == this.columns.length) {
 				this.data.add(data);
+			}
+		}
+
+		public void addRows(Collection<Object[]> data) {
+			Iterator<Object[]> I = data.iterator();
+			while (I.hasNext()) {
+				this.addRow(I.next());
 			}
 		}
 
